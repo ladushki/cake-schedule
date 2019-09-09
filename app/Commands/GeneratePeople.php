@@ -39,5 +39,6 @@ class GeneratePeople extends Command
                                                   ->format('Y-m-d');
         }
         Storage::put($this->argument('file'), implode("\n", $data));
+        $this->info('File is generated');
     }
 }

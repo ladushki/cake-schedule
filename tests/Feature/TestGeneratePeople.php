@@ -8,7 +8,13 @@ use Tests\TestCase;
 class TestGeneratePeople extends TestCase
 {
 
-    public function testGeneratePeopleCommand()
+    public function testGenerateCommand()
+    {
+        $this->artisan('generate-people', ['number' => 2, 'file' => 'test.txt'])
+            ->expectsOutput('File is generated')
+             ->assertExitCode(0);
+    }
+    public function testGeneratePeople()
     {
         Storage::fake('local');
         $this->artisan('generate-people', ['number' => 2, 'file' => 'test.txt'])->assertExitCode(0);
