@@ -4,6 +4,7 @@
 namespace App\Handlers;
 
 
+use App\Exceptions\WrongFormat;
 use App\Services\CakeDayService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -118,6 +119,9 @@ class CakeHandler
         $cakes = [];
         foreach ($birthdays as $line) {
             $person         = explode(', ', $line);
+            if (empty($person[1])) {
+                throw new WrongFormat('No date');
+            }
             $birthday       = $this->service->getBirthday($person[1]);
             $nextWorkingDay = $this->service->getNextWorkingDay($birthday);
             if (!isset($cakes[$nextWorkingDay])) {

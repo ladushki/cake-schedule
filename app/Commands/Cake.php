@@ -14,7 +14,7 @@ class Cake extends Command
      *
      * @var string
      */
-    protected $signature = 'cake';
+    protected $signature = 'cake {list=data.txt}';
 
     /**
      * The description of the command.
@@ -26,14 +26,15 @@ class Cake extends Command
     /**
      * Execute the console command.
      *
+     * @param \App\Handlers\CakeHandler $handler
      * @return mixed
      */
     public function handle(CakeHandler $handler)
     {
-        $peopleStr = Storage::get('data.txt');
+        $peopleStr = empty($this->argument('list'))?Storage::get('data.txt'):
+            Storage::get($this->argument('list'));
         $data      = array_filter(explode("\n", $peopleStr));
         $output    = $handler->run($data);
-        $this->info($output->implode(PHP_EOL));
         $this->info($output->implode(PHP_EOL));
     }
 }
